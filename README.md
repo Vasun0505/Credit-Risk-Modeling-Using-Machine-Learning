@@ -2,201 +2,195 @@
 
 ### An Explainable Machine Learning Approach to Loan Approval Prediction
 
----
+## Project Overview
 
-## Overview
+Credit Risk Modelling Using Machine Learning is a data science project developed to analyse loan applicant information and predict loan approval outcomes. The project applies data preprocessing, exploratory data analysis, feature engineering and machine learning classification techniques to identify patterns associated with loan approval.
 
-Credit Risk Modelling is a machine learning-based project focused on analysing loan applicant information and predicting loan approval outcomes. The system uses applicant financial details, credit history and demographic attributes to identify patterns associated with loan approval decisions.
+Along with predictive modelling, the project incorporates **SHAP (SHapley Additive exPlanations)** to interpret model predictions and understand the contribution of individual features to the results.
 
-The project implements multiple classification algorithms and evaluates their predictive performance to identify a suitable model. It further integrates Explainable AI techniques, including SHAP and Counterfactual Analysis, to improve the interpretability of model predictions.
+## Project Objectives
 
-An interactive Streamlit dashboard provides a unified interface for prediction, risk categorisation and model explanations.
+- Analyse applicant and loan-related information to identify important factors influencing loan approval.
+- Preprocess and transform the dataset to prepare it for machine learning.
+- Develop and evaluate multiple classification models.
+- Predict whether a loan application is likely to be approved or rejected.
+- Use SHAP visualisations to improve the interpretability of model predictions.
+- Provide an interactive prediction interface through a Streamlit application.
 
-## Problem Definition
+## Dataset
 
-Traditional loan evaluation involves examining multiple applicant attributes before reaching a lending decision. Identifying relevant patterns across these attributes can be challenging when processing large volumes of applications.
+The project uses the loan approval dataset available in `Dataset.csv`.
 
-This project investigates the application of machine learning techniques to automate loan approval prediction while providing interpretable insights into the factors influencing the model's decisions.
+The dataset contains applicant-related information, including:
 
-## Objectives
+- Gender
+- Marital Status
+- Dependents
+- Education
+- Self-Employment Status
+- Applicant Income
+- Co-applicant Income
+- Loan Amount
+- Loan Amount Term
+- Credit History
+- Property Area
+- Loan Status
 
-- Perform statistical analysis and exploratory data analysis on loan applicant data.
-- Apply data preprocessing techniques to improve data quality.
-- Engineer relevant features to enhance model representation.
-- Develop and evaluate multiple classification algorithms.
-- Identify the best-performing model using appropriate evaluation metrics.
-- Integrate explainability techniques to interpret individual predictions.
-- Develop an interactive dashboard for real-time applicant assessment.
-
-## System Workflow
-
-```text
-          Loan Dataset
-                |
-                v
-       Data Preprocessing
-                |
-                v
-       Exploratory Analysis
-                |
-                v
-       Feature Engineering
-                |
-                v
-       Data Splitting & Balancing
-                |
-                v
-        Model Development
-                |
-                v
-        Model Evaluation
-                |
-                v
-        Random Forest Model
-                |
-         +------+------+
-         |             |
-         v             v
-    SHAP Analysis   Counterfactual
-         |             |
-         +------+------+
-                |
-                v
-       Streamlit Dashboard
-                |
-                v
-       Prediction & Insights
-```
-
-## Dataset Description
-
-The project uses a loan approval dataset containing **614 records and 13 attributes**.
-
-The dataset includes applicant information such as:
-
-- Demographic details: Gender, Married, Dependents and Education.
-- Financial information: Applicant Income, Co-applicant Income and Loan Amount.
-- Loan details: Loan Amount Term and Credit History.
-- Property information: Property Area.
-- Target variable: Loan Status.
-
-The target variable contains two classes:
+**Target Variable:** `Loan_Status`
 
 - `Y` – Loan Approved
 - `N` – Loan Rejected
 
+The dataset is processed before model training to handle missing values, transform categorical variables and prepare suitable features.
+
 ## Methodology
 
-### 1. Data Preprocessing
-Missing values are handled using median imputation for numerical attributes and mode imputation for categorical attributes. Duplicate records and inconsistent values are also examined.
+The project follows a structured machine learning workflow:
 
-### 2. Exploratory Data Analysis
-Statistical summaries, distribution plots, boxplots, categorical comparisons and correlation heatmaps are used to identify patterns and relationships within the dataset.
+1. **Data Collection:** Load and examine the loan approval dataset.
+2. **Data Preprocessing:** Handle missing values, remove inconsistencies and encode categorical variables.
+3. **Exploratory Data Analysis:** Study feature distributions, relationships and correlations.
+4. **Feature Engineering:** Generate additional features, including total income and logarithmic transformations.
+5. **Model Training:** Train classification models using the prepared dataset.
+6. **Model Evaluation:** Assess model performance using classification metrics and confusion matrices.
+7. **Explainable AI:** Apply SHAP to analyse feature importance and individual predictions.
+8. **Prediction Interface:** Use a Streamlit application to accept applicant details and display prediction results.
 
-### 3. Feature Engineering
-Additional features are generated, including `Total_Income`. Logarithmic transformations are applied to selected financial attributes to reduce the influence of skewed distributions.
+## Machine Learning Algorithms
 
-### 4. Data Balancing
-The dataset is divided into training and testing subsets. Random oversampling is applied to the training data to address class imbalance.
+The project explores the following classification algorithms:
 
-### 5. Model Development
-Four classification algorithms are implemented and compared:
-
-| Algorithm | Approach |
+| Algorithm | Purpose |
 |---|---|
-| Logistic Regression | Probabilistic classification |
-| Decision Tree | Rule-based classification |
-| K-Nearest Neighbours | Distance-based classification |
-| Random Forest | Ensemble-based classification |
+| Logistic Regression | Predicts loan approval using a classification approach |
+| Decision Tree | Uses decision rules to classify loan applications |
+| Random Forest | Combines multiple decision trees to improve prediction |
+| K-Nearest Neighbors (KNN) | Classifies applications based on neighbouring observations |
 
-### 6. Model Evaluation
-Model performance is assessed using Accuracy, Precision, Recall, F1-Score, AUC and cross-validation.
+The models are evaluated using appropriate classification metrics, including accuracy, precision, recall and F1-score.
 
-## Model Performance
+## Explainable AI Using SHAP
 
-The following results were obtained from the held-out test dataset:
+SHAP is integrated to explain how individual features influence the model's predictions.
 
-| Model | Accuracy | Precision | Recall | F1-Score | AUC |
-|---|---:|---:|---:|---:|---:|
-| Logistic Regression | 75.32% | 75.41% | 92.00% | 82.88% | 0.70 |
-| Decision Tree | 65.58% | 73.74% | 73.00% | 73.37% | 0.62 |
-| KNN | 67.53% | 75.51% | 74.00% | 74.75% | 0.66 |
-| **Random Forest** | **76.62%** | **77.12%** | **91.00%** | **83.49%** | **0.78** |
+The generated visualisations include:
 
-Random Forest demonstrated the strongest overall performance, achieving the highest Accuracy, F1-Score and AUC among the evaluated models. It was therefore selected as the preferred prediction model.
+**1. SHAP Feature Importance**
 
-## Explainable AI Integration
+Shows the relative contribution of features to the model output. Credit History appears as the most influential feature in the generated feature-importance visualisation.
 
-A key component of this project is the integration of explainability techniques to provide insights into model behaviour.
+**2. SHAP Summary Plot**
 
-**SHAP (SHapley Additive exPlanations)**
+Displays the distribution and direction of feature contributions across observations.
 
-SHAP is used to quantify the contribution of individual input features towards model predictions. It supports both global feature importance analysis and local explanations for individual applicants.
+**3. SHAP Waterfall Plot**
 
-**Counterfactual Analysis**
+Explains how individual feature contributions move a particular prediction away from the model's baseline output.
 
-Counterfactual analysis explores alternative applicant input values that may change the model's predicted outcome. It provides insight into possible changes in loan-related attributes, such as the requested loan amount or repayment term.
+### SHAP Visualisation Results
 
-## Application Features
+![SHAP Feature Importance](shap_feature_importance.png)
 
-The Streamlit dashboard integrates the trained prediction model with the explainability components.
+![SHAP Summary Plot](shap_summary.png)
 
-| Component | Functionality |
+![SHAP Waterfall Plot](shap_waterfall.png)
+
+## Application and Technologies
+
+The repository contains both R-based analysis and a Python-based prediction application.
+
+| Component | Technology |
 |---|---|
-| Loan Prediction | Generates approval or rejection predictions |
-| Probability Analysis | Displays predicted approval probability |
-| Risk Categorisation | Groups predictions into Low, Medium and High categories |
-| SHAP Explanation | Identifies influential applicant attributes |
-| Counterfactual Analysis | Explores alternative inputs and prediction outcomes |
-| Eligibility Insights | Presents prediction-related guidance |
-
-## Technology Stack
-
-| Category | Tools and Technologies |
-|---|---|
-| Programming Languages | R, Python |
-| Data Manipulation | dplyr, tidyr |
-| Data Visualisation | ggplot2 |
-| Machine Learning | caret, randomForest, rpart, class |
-| Explainable AI | SHAP |
-| Application Framework | Streamlit |
-| Development Tools | RStudio, VS Code |
-| Version Control | Git, GitHub |
+| Data Analysis | R |
+| Machine Learning Application | Python |
+| Interactive Dashboard | Streamlit |
+| Data Processing | Pandas, NumPy |
+| Machine Learning | Scikit-learn |
+| Model Explainability | SHAP |
+| Visualisation | Matplotlib, Seaborn, R visualisation packages |
+| Development Environment | VS Code / RStudio |
 
 ## Repository Structure
-
-The repository will contain the following project resources as development and documentation files are uploaded:
 
 ```text
 Credit-Risk-Modeling-Using-Machine-Learning/
 │
+├── Dataset.csv
 ├── README.md
-├── .gitignore
-├── dataset/
-├── R/
-├── app/
-├── models/
-└── documentation/
+├── credit_risk_analysis.R
+│
+├── app.py
+├── requirements.txt
+├── test_shap.py
+│
+├── loan_model.pkl
+├── feature_columns.pkl
+│
+├── shap_feature_importance.png
+├── shap_summary.png
+├── shap_waterfall.png
+│
+├── 24BDS1112_24BDS1071_PDS_REPORT_FINAL.pdf
+├── Credit_Risk_Modeling_Presentation.pptx
+└── Credit_Risk_Modeling_Presentation.pdf
 ```
 
-## Future Scope
+## Running the Python Application
 
-- Training and validation using larger and more diverse datasets.
-- Further optimisation of model performance and classification thresholds.
-- Additional explainability and fairness evaluation.
-- Integration of more advanced machine learning algorithms.
-- Enhancement of dashboard functionality and visual analytics.
+### Prerequisites
 
-## Limitations and Disclaimer
+- Python installed on the system
+- pip package manager
+- Required packages listed in `requirements.txt`
 
-The model is developed using a historical loan approval dataset. Its predictions reflect patterns learned from the available data and may not represent actual lending decisions.
+### Installation
 
-The application is intended for academic and educational purposes and should not be considered a substitute for professional financial assessment.
+Clone the repository:
 
-## Project Repository
+```bash
+git clone https://github.com/Vasun0505/Credit-Risk-Modeling-Using-Machine-Learning.git
+```
 
-**GitHub:** [Credit Risk Modelling Using Machine Learning](https://github.com/Vasun0505/Credit-Risk-Modeling-Using-Machine-Learning)
+Move into the project directory:
 
----
+```bash
+cd Credit-Risk-Modeling-Using-Machine-Learning
+```
 
-*Academic Project | Data Science | Machine Learning | Explainable AI*
+Install the required dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+Run the Streamlit application:
+
+```bash
+streamlit run app.py
+```
+
+The application will open in the browser, where applicant details can be entered to obtain a loan approval prediction.
+
+### Running the R Analysis
+
+Open `credit_risk_analysis.R` in RStudio or another R-compatible environment.
+
+Ensure the required R packages are installed and that `Dataset.csv` is available in the project directory. Run the script to execute the data analysis and machine learning workflow.
+
+## Project Documentation
+
+The complete project report and presentation are available below:
+
+- [Final Project Report (PDF)](24BDS1112_24BDS1071_PDS_REPORT_FINAL.pdf)
+- [Project Presentation (PPTX)](Credit_Risk_Modeling_Presentation.pptx)
+- [Project Presentation (PDF)](Credit_Risk_Modeling_Presentation.pdf)
+
+## Conclusion
+
+This project demonstrates the application of data science and machine learning techniques to loan approval prediction. By combining data analysis, multiple classification algorithms and SHAP-based explanations, it provides both predictive results and insights into the factors influencing those results.
+
+The project also demonstrates how a trained machine learning model can be integrated into an interactive application, making the prediction process accessible through a user-friendly interface.
+
+## Repository
+
+**GitHub:** https://github.com/Vasun0505/Credit-Risk-Modeling-Using-Machine-Learning
